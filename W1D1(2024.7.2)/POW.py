@@ -24,10 +24,6 @@ def compute_hash_with_nonce(prefix, difficulty):
 # 调用函数，传入'greatgeoff'作为prefix
 print("第一问")
 compute_hash_with_nonce('greatgeoff',4)
-
-# ————————————————————————————————————————————————————————————————————————
-
-
 print("第二问")
 compute_hash_with_nonce('greatgeoff',5)
 
