@@ -1,7 +1,7 @@
 import hashlib
 import time
 
-def compute_hash_with_nonce(prefix, difficulty=4):
+def compute_hash_with_nonce_1(prefix, difficulty=4):
     nonce = 0
     target = '0' * difficulty  # 目标值，即哈希值以几个0开头
     start_time = time.time()
@@ -23,14 +23,11 @@ def compute_hash_with_nonce(prefix, difficulty=4):
 
 # 调用函数，传入'greatgeoff'作为prefix
 print("第一问")
-compute_hash_with_nonce('greatgeoff')
+compute_hash_with_nonce_1('greatgeoff')
 
 # ————————————————————————————————————————————————————————————————————————
 
-import hashlib
-import time
-
-def mine(prefix, difficulty=5):
+def compute_hash_with_nonce_2(prefix, difficulty=5):
     nonce = 0
     target = '0' * difficulty
     start_time = time.time()
@@ -51,5 +48,5 @@ def mine(prefix, difficulty=5):
         nonce += 1
 
 print("第二问")
-mine('greatgeoff')
+compute_hash_with_nonce_2('greatgeoff')
 
