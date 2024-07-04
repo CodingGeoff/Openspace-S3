@@ -12,22 +12,20 @@ contract Bank {
     }
 
     // 取款/提现
-    function withdrawAmount(uint amount) public payable {
+    function withdraw(uint amount) public payable {
         require(amount <= userBalances[msg.sender], "Insufficient balance");
         userBalances[msg.sender] -= amount;
-        (bool success, ) = msg.sender.call{value: amount}("");
-        require(success, "Transfer failed");
     }
 
     // 存款
-    function depositAmount() public payable {
+    function deposit() public payable {
         userBalances[msg.sender] += msg.value;
         updateTopUsers();
     }
 
     // 接收Ether
     receive() external payable {
-        depositAmount();
+        deposit();
     }
 
     // 更新存款金额前三用户
