@@ -23,7 +23,7 @@ topUsers[0] = UserA (余额: 100)<br>
 topUsers[1] = UserB (余额: 80)<br>
 topUsers[2] = UserC (余额: 60)<br>
 现在，假设 msg.sender 是 UserD，且 UserD 的余额为 90。<br>
-## 初始化 index 为 -1：
+## 初始化：
 ```
 int index = -1;
 ```
