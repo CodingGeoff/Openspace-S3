@@ -2,31 +2,27 @@
 
 ## 第一题 交易最大费用
 在以太坊上，用户发起一笔交易 设置了GasLimit 为 10000, Max Fee 为 10 GWei, Max priority fee 为 1 GWei ，为此用户应该在钱包账号里多少 GWei 的余额？
----
-- 在以太坊上发起交易时，用户需要支付的最大费用是由 GasLimit、Max Fee 和 Max Priority Fee 这三个参数决定的。这笔费用是预先从用户的钱包中扣除的，以确保交易可以被网络处理。我们可以使用以下公式来计算用户钱包中应有的最小 GWei 余额：
-- Max Fee = GasLimit * MaxFee  = 10000 * 10 GWei  = 100000 GWei 
-- 因此，用户钱包中至少需要有 100000 GWei 的余额来支付这笔交易的最大费用。请注意，实际上可能会消耗较少的费用，因为 Max Fee 包括了 Base Fee 和 Priority Fee，而实际消耗的 Base Fee 可能低于 Max Fee。未使用的费用部分将会退还给用户。
+> 在以太坊上发起交易时，用户需要支付的最大费用是由 GasLimit、Max Fee 和 Max Priority Fee 这三个参数决定的。这笔费用是预先从用户的钱包中扣除的，以确保交易可以被网络处理。我们可以使用以下公式来计算用户钱包中应有的最小 GWei 余额：<br>
+> **Max Fee = GasLimit * MaxFee**  = 10000 * 10 GWei  = 100000 GWei<br>
+> 因此，用户钱包中至少需要有 100000 GWei 的余额来支付这笔交易的最大费用。请注意，实际上可能会消耗较少的费用，因为 Max Fee 包括了 Base Fee 和 Priority Fee，而实际消耗的 Base Fee 可能低于 Max Fee。未使用的费用部分将会退还给用户。
 
 ## 第二题 验证者获得手续费
 在以太坊上，用户发起一笔交易 设置了 GasLimit 为 10000, Max Fee 为 10 GWei, Max priority Fee 为 1 GWei，在打包时，Base Fee 为 5 GWei, 实际消耗的Gas为 5000， 那么矿工（验证者）拿到的手续费是多少 GWei ?
----
-- 在以太坊上，矿工（验证者）获得的手续费是由 Priority Fee 和实际消耗的 Gas 数量决定的。我们可以使用以下公式来计算矿工拿到的手续费：
-- 矿工手续费 = 实际消耗的Gas * MaxPriorityFee  = 5000 * 1 GWei  = 5000 GWei 
-- 因此，矿工（验证者）从这笔交易中获得的手续费是 5000 GWei。请注意，这是因为实际消耗的 Gas 是5000，而用户设置的 Max Priority Fee 是1 GWei。
+> 在以太坊上，矿工（验证者）获得的手续费是由 Priority Fee 和实际消耗的 Gas 数量决定的。我们可以使用以下公式来计算矿工拿到的手续费：<br>
+> **矿工手续费 = 实际消耗的Gas * MaxPriorityFee**  = 5000 * 1 GWei  = 5000 GWei<br>
+> 因此，矿工（验证者）从这笔交易中获得的手续费是 5000 GWei。请注意，这是因为实际消耗的 Gas 是5000，而用户设置的 Max Priority Fee 是1 GWei。
 
 ## 第三题 用户支付手续费
 在以太坊上，用户发起一笔交易 设置了 GasLimit 为 10000, Max Fee 为 10 GWei, Max priority Fee 为 1 GWei，在打包时，Base Fee 为 5 GWei, 实际消耗的Gas为 5000， 那么用户需要支付的的手续费是多少 GWei ?
----
-- 在以太坊上，用户实际需要支付的手续费是由 Base Fee、Priority Fee 和实际消耗的 Gas 数量决定的。我们可以使用以下公式来计算用户需要支付的手续费：
-- 用户手续费 = (BaseFee + MaxPriorityFee) * 实际消耗的Gas  = (5 GWei + 1 GWei) * 5000  = 6 GWei * 5000  = 30000 GWei 
-- Fee 是5 GWei，而用户设置的 Max Priority Fee 是1 GWei。如果 Max Fee 大于 Base Fee 加上 Priority Fee 的总和，那么超出的部分将会退还给用户。
+> 在以太坊上，用户实际需要支付的手续费是由 Base Fee、Priority Fee 和实际消耗的 Gas 数量决定的。我们可以使用以下公式来计算用户需要支付的手续费：<br>
+> **用户手续费 = (BaseFee + MaxPriorityFee) * 实际消耗的Gas**  = (5 GWei + 1 GWei) * 5000  = 6 GWei * 5000  = 30000 GWei<br>
+> Fee 是5 GWei，而用户设置的 Max Priority Fee 是1 GWei。如果 Max Fee 大于 Base Fee 加上 Priority Fee 的总和，那么超出的部分将会退还给用户。
 
 ## 第四题 燃烧掉的手续费
 在以太坊上，用户发起一笔交易 设置了 GasLimit 为 10000, Max Fee 为 10 GWei, Max priority Fee 为 1 GWei，在打包时，Base Fee 为 5 GWei, 实际消耗的 Gas 为 5000， 那么燃烧掉的 Eth 数量是多少 GWei ?
----
-- 在以太坊上，燃烧掉的 ETH 数量是由 Base Fee 和实际消耗的 Gas 数量决定的。燃烧掉的 ETH 是网络收取的 Base Fee 乘以实际消耗的 Gas 数量。我们可以使用以下公式来计算燃烧掉的 ETH 数量：
-- 燃烧的 ETH = BaseFee * 实际消耗的Gas = 5 GWei * 5000  = 25000 GWei 
-- 因此，燃烧掉的 ETH 数量是 25000 GWei。这部分 ETH 会从交易中被永久移除，不会进入矿工（验证者）的账户。
+> 在以太坊上，燃烧掉的 ETH 数量是由 Base Fee 和实际消耗的 Gas 数量决定的。燃烧掉的 ETH 是网络收取的 Base Fee 乘以实际消耗的 Gas 数量。我们可以使用以下公式来计算燃烧掉的 ETH 数量：<br>
+> **燃烧的 ETH = BaseFee * 实际消耗的Gas** = 5 GWei * 5000  = 25000 GWei<br>
+> 因此，燃烧掉的 ETH 数量是 25000 GWei。这部分 ETH 会从交易中被永久移除，不会进入矿工（验证者）的账户。
 
 
 # 课程纪要
