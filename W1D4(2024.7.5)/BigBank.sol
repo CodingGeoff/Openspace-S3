@@ -1,10 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract Bank {
-    mapping(address => uint) public userBalances;
-    address[3] public topUsers;
-    function deposit() public payable virtual {
+interface IBank {
+    function deposit() external payable;
+    function withdraw(uint amount) external;
+    function userBalances(address user) external view returns (uint);
+    function topUsers(uint index) external view returns (address);
+}
+
+contract Bank is IBank {
+    mapping(address => uint) public override userBalances;
+    address[3] public override topUsers;
+
+    function deposit() public payable virtual override {
         userBalances[msg.sender] += msg.value;
         updateTopUsers();
     }
@@ -12,7 +20,6 @@ contract Bank {
     // 接收以太币
     receive() external payable {
         deposit();
-        console.log("Success");
     }
 
     // 更新存款金额前三用户
@@ -28,16 +35,23 @@ contract Bank {
             }
         }
         topUsers = tempTopUsers;
+    }
 
+    function withdraw(uint amount) public virtual override {
+        require(userBalances[msg.sender] >= amount, "Insufficient balance");
+        userBalances[msg.sender] -= amount;
+        payable(msg.sender).transfer(amount);
     }
 }
 
 // Ownable 合约用于管理所有权
 contract Ownable {
     address public owner;
+
     constructor() {
         owner = msg.sender;
     }
+
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function");
         _;
@@ -48,9 +62,11 @@ contract Ownable {
 contract BigBank is Bank, Ownable {
     address private BigBankAdmin;
     uint public balance;
+
     constructor() {
         BigBankAdmin = msg.sender;
     }
+
     // 要求最小存款金额为 0.001 ether
     modifier minDeposit() {
         require(msg.value >= 0.001 ether, "Minimum deposit is 0.001 ether");
@@ -68,16 +84,14 @@ contract BigBank is Bank, Ownable {
         _;
     }
 
-    function withdraw(uint amount) public onlyOwner {
+    function withdraw(uint amount) public override onlyOwner {
         require(amount <= balance, "Insufficient contract balance");
         payable(owner).transfer(amount);
         balance -= amount;
         userBalances[msg.sender] -= amount;
-
     }
 
     function transferOwnership(address newOwner) public payable onlyAdmin {
-        require(newOwner != address(0), "New owner is the zero address");
         owner = newOwner;
     }
 }
