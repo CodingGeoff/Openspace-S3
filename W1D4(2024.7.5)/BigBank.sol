@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-import "hardhat/console.sol";
 
 contract Bank {
     mapping(address => uint) public userBalances;
     address[3] public topUsers;
-
     function deposit() public payable virtual {
         userBalances[msg.sender] += msg.value;
         updateTopUsers();
@@ -37,29 +35,22 @@ contract Bank {
 // Ownable 合约用于管理所有权
 contract Ownable {
     address public owner;
-
     constructor() {
         owner = msg.sender;
     }
-
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function");
         _;
     }
-
-
 }
 
 // BigBank 合约
 contract BigBank is Bank, Ownable {
     address private BigBankAdmin;
     uint public balance;
-
     constructor() {
         BigBankAdmin = msg.sender;
     }
-
-
     // 要求最小存款金额为 0.001 ether
     modifier minDeposit() {
         require(msg.value >= 0.001 ether, "Minimum deposit is 0.001 ether");
