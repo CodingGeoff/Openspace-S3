@@ -8,11 +8,11 @@ interface IBank {
     function topUsers(uint index) external view returns (address);
 }
 
-contract Bank is IBank {
-    mapping(address => uint) public override userBalances;
-    address[3] public override topUsers;
+contract Bank {
+    mapping(address => uint) public userBalances;
+    address[3] public topUsers;
 
-    function deposit() public payable virtual override {
+    function deposit() public payable virtual  {
         userBalances[msg.sender] += msg.value;
         updateTopUsers();
     }
@@ -37,31 +37,34 @@ contract Bank is IBank {
         topUsers = tempTopUsers;
     }
 
-    function withdraw(uint amount) public virtual override {
-        require(userBalances[msg.sender] >= amount, "Insufficient balance");
-        userBalances[msg.sender] -= amount;
-        payable(msg.sender).transfer(amount);
-    }
 }
 
 // Ownable 合约用于管理所有权
 contract Ownable {
     address public owner;
+    uint public balance;
 
     constructor() {
         owner = msg.sender;
+        balance = msg.sender.balance;
     }
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only the owner can call this function");
         _;
     }
+
+    function withdraw(uint amount) public onlyOwner payable {
+        require(amount <= balance, "Insufficient contract balance");
+        payable(owner).transfer(amount);
+        balance = msg.sender.balance;
+        balance -= amount;
+    }
 }
 
 // BigBank 合约
 contract BigBank is Bank, Ownable {
     address private BigBankAdmin;
-    uint public balance;
 
     constructor() {
         BigBankAdmin = msg.sender;
@@ -82,13 +85,6 @@ contract BigBank is Bank, Ownable {
     modifier onlyAdmin() {
         require(msg.sender == BigBankAdmin, "Only the admin can call this function");
         _;
-    }
-
-    function withdraw(uint amount) public override onlyOwner {
-        require(amount <= balance, "Insufficient contract balance");
-        payable(owner).transfer(amount);
-        balance -= amount;
-        userBalances[msg.sender] -= amount;
     }
 
     function transferOwnership(address newOwner) public payable onlyAdmin {
