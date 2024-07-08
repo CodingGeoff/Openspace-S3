@@ -2,57 +2,92 @@
 pragma solidity ^0.8.0;
 
 interface IBank {
-    function deposit() external payable;
-    function withdraw(uint amount) external;
-    function userBalances(address user) external view returns (uint);
-    function topUsers(uint index) external view returns (address);
+    function withdraw(address user, uint256 amount) external;
 }
 
-contract Bank is IBank {
-    mapping(address => uint) public override userBalances;
-    address[3] public override topUsers;
+contract Bank {
+    mapping(address => uint256) public userBalances;
+    address[3] public topUsers;
 
-    function deposit() public payable virtual override {
+    event Deposit(address indexed user, uint256 amount);
+    event Withdraw(address indexed user, uint256 amount);
+
+    constructor() {
+        // Constructor can be used to initialize topUsers if needed
+    }
+
+    
+
+    function deposit() public payable virtual {
+        require(msg.value > 0, "Deposit amount must be greater than 0");
         userBalances[msg.sender] += msg.value;
+        emit Deposit(msg.sender, msg.value);
         updateTopUsers();
     }
 
-    // 接收以太币
-    receive() external payable {
-        deposit();
+    function updateTopUsers() public {
+        // Assuming the function should be internal since it's only called within this contract
+        // and it's not a part of the contract's externally visible state
+        _updateTopUsers();
     }
 
-    // 更新存款金额前三用户
-    function updateTopUsers() internal {
-        address[3] memory tempTopUsers = topUsers;
-        for (uint i = 0; i < 3; i++) {
-            if (userBalances[msg.sender] > userBalances[tempTopUsers[i]]) {
-                for (uint j = 2; j > i; j--) {
-                    tempTopUsers[j] = tempTopUsers[j - 1];
+    function _updateTopUsers() internal {
+        uint256 userBalance = userBalances[msg.sender];
+        for (uint256 i = 0; i < topUsers.length; i++) {
+            if (userBalance > userBalances[topUsers[i]]) {
+                for (uint256 j = 2; j > i; j--) {
+                    topUsers[j] = topUsers[j - 1];
                 }
-                tempTopUsers[i] = msg.sender;
+                topUsers[i] = msg.sender;
                 break;
             }
         }
-        topUsers = tempTopUsers;
     }
 
-    function withdraw(uint amount) public virtual override {
+    function withdraw(uint256 amount) public virtual {
         require(userBalances[msg.sender] >= amount, "Insufficient balance");
         userBalances[msg.sender] -= amount;
-        payable(msg.sender).transfer(amount);
+        (bool success, ) = msg.sender.call{value: amount}("");
+        require(success, "Transfer failed.");
+        emit Withdraw(msg.sender, amount);
+    }
+
+    // Fallback function to receive Ether
+    receive() external payable {
+        deposit();
     }
 }
 
-// Ownable 合约用于管理所有权
+contract BigBank is Bank{
+    constructor() {}
+
+    function deposit() public payable override {
+        require(msg.value >= 0.001 ether, "Minimum deposit is 0.001 ether");
+        super.deposit();
+    }
+    
+
+    function withdraw(address bigbankowner, uint256 amount) external payable {
+        require(address(this).balance >= amount, "Insufficient contract balance");
+        (bool success, ) = bigbankowner.call{value: amount}("");
+        require(success, "Transfer failed.");
+        emit Withdraw(bigbankowner, amount);
+    }
+
+    // Function to set a new owner (only current owner can call)
+    function transferOwnership(address bigbankowner, address newOwner) pure public  {
+        require(newOwner != address(0), "New owner is the zero address");
+        bigbankowner = newOwner;
+    }
+
+    // The onlyOwner modifier is inherited from the Bank contract
+}
+
 contract Ownable {
     address public owner;
-    uint public balance;
 
     constructor() {
         owner = msg.sender;
-        balance = msg.sender.balance;
-
     }
 
     modifier onlyOwner() {
@@ -60,45 +95,9 @@ contract Ownable {
         _;
     }
 
-    // 管理员取款逻辑
-    function Withdraw(address bigbank, uint amount) public onlyOwner payable{
-        require(amount <= bigbank.balance, "Insufficient contract balance");
-        payable(owner).transfer(amount);
+    // Function to withdraw from BigBank (only owner can call)
+    function withdraw(BigBank _bigBank, uint256 amount) public onlyOwner {
+        _bigBank.withdraw(amount);
     }
 }
 
-// BigBank 合约
-contract BigBank is Bank, Ownable {
-    address private BigBankAdmin;
-
-    constructor() {
-        BigBankAdmin = msg.sender;
-    }
-
-    // 要求最小存款金额为 0.001 ether
-    modifier minDeposit() {
-        require(msg.value >= 0.001 ether, "Minimum deposit is 0.001 ether");
-        _;
-    }
-
-    // 重写存款函数，包含最低存款金额
-    function deposit() public payable override minDeposit {
-        super.deposit();
-        balance += msg.value; // 将存款金额加入大银行的资金池
-    }
-
-    modifier onlyAdmin() {
-        require(msg.sender == BigBankAdmin, "Only the admin can call this function");
-        _;
-    }
-
-    function withdraw(uint amount) public override {
-        require(amount <= balance, "Insufficient contract balance");
-        balance -= amount;
-        userBalances[msg.sender] -= amount;
-    }
-
-    function transferOwnership(address newOwner) public onlyAdmin {
-        owner = newOwner;
-    }
-}
