@@ -8,11 +8,11 @@ interface IBank {
     function topUsers(uint index) external view returns (address);
 }
 
-contract Bank {
-    mapping(address => uint) public userBalances;
-    address[3] public topUsers;
+contract Bank is IBank {
+    mapping(address => uint) public override userBalances;
+    address[3] public override topUsers;
 
-    function deposit() public payable virtual  {
+    function deposit() public payable virtual override {
         userBalances[msg.sender] += msg.value;
         updateTopUsers();
     }
@@ -37,6 +37,11 @@ contract Bank {
         topUsers = tempTopUsers;
     }
 
+    function withdraw(uint amount) public virtual override {
+        require(userBalances[msg.sender] >= amount, "Insufficient balance");
+        userBalances[msg.sender] -= amount;
+        payable(msg.sender).transfer(amount);
+    }
 }
 
 // Ownable 合约用于管理所有权
@@ -47,6 +52,7 @@ contract Ownable {
     constructor() {
         owner = msg.sender;
         balance = msg.sender.balance;
+
     }
 
     modifier onlyOwner() {
@@ -54,11 +60,10 @@ contract Ownable {
         _;
     }
 
-    function withdraw(uint amount) public onlyOwner payable {
+    // 管理员取款逻辑
+    function Withdraw(uint amount) public onlyOwner payable{
         require(amount <= balance, "Insufficient contract balance");
         payable(owner).transfer(amount);
-        balance = msg.sender.balance;
-        balance -= amount;
     }
 }
 
@@ -87,7 +92,13 @@ contract BigBank is Bank, Ownable {
         _;
     }
 
-    function transferOwnership(address newOwner) public payable onlyAdmin {
+    function withdraw(uint amount) public override {
+        require(amount <= balance, "Insufficient contract balance");
+        balance -= amount;
+        userBalances[msg.sender] -= amount;
+    }
+
+    function transferOwnership(address newOwner) public onlyAdmin {
         owner = newOwner;
     }
 }
