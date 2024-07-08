@@ -61,8 +61,8 @@ contract Ownable {
     }
 
     // 管理员取款逻辑
-    function Withdraw(uint amount) public onlyOwner payable{
-        require(amount <= balance, "Insufficient contract balance");
+    function Withdraw(address bigbank, uint amount) public onlyOwner payable{
+        require(amount <= bigbank.balance, "Insufficient contract balance");
         payable(owner).transfer(amount);
     }
 }
