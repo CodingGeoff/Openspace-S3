@@ -63,15 +63,15 @@ contract BaseERC20 {
     }
 
     function transferAndCall(address to, uint256 amount) public returns (bool success) {
-    require(transfer(to, amount));
-    if (to.code.length > 0) { // to is a contract
-        try IERC1363Receiver(to).onTransferReceived(msg.sender, msg.sender, amount, "") returns (bytes4 rtVal) {
-            require(rtVal == IERC1363Receiver.onTransferReceived.selector);
-        } catch {
-            revert();
+        require(transfer(to, amount));
+        if (to.code.length > 0) { // to is a contract
+            try IERC1363Receiver(to).onTransferReceived(msg.sender, msg.sender, amount, "") returns (bytes4 rtVal) {
+                require(rtVal == IERC1363Receiver.onTransferReceived.selector);
+            } catch {
+                revert();
+            }
         }
-    }
-    return true; // Explicitly return true to indicate success
+        return true; 
 }
 
 }
