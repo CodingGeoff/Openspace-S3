@@ -29,8 +29,6 @@ contract Bank {
     }
 
     function updateTopDepositors(address depositor) internal {
-        // Update top depositors logic
-        // This is a simplified version, you might need a more complex logic to handle top 3 depositors
         if (topDepositors.length < 3) {
             topDepositors.push(depositor);
         } else {
