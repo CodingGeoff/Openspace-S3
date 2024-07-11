@@ -86,11 +86,6 @@ contract Ownable {
         bigBank = BigBank(_bigBank);
     }
 
-    function transferBigBankAdmin() private {
-        require(msg.sender == owner, "Only owner can transfer BigBank admin rights");
-        bigBank.transferAdmin(address(this));
-    }
-
     function withdrawFromBigBank(uint256 amount) public {
         require(msg.sender == owner, "Only owner can withdraw from BigBank");
         bigBank.withdraw(amount);
