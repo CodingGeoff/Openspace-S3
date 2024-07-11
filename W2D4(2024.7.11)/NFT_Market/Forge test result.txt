@@ -1,28 +1,22 @@
-codinggeoff@LAPTOP-9CGA7KTS:/mnt/d/LenovoQMDownload/Openspace S3/W2D4(2024.7.11)/NFT_Market$ forge test
+codinggeoff@LAPTOP-9CGA7KTS:/mnt/d/LenovoQMDownload/Openspace S3/W2D4(2024.7.11)/NFT_Market$ forge test 
 [⠆] Compiling...
-[⠒] Compiling 1 files with Solc 0.8.26
-[⠆] Solc 0.8.26 finished in 1.72s
-Compiler run successful!
+No files changed, compilation skipped
 
-Ran 18 tests for test/NFTMarket.t.sol:NFTMarketTest
+Ran 14 tests for test/NFTMarket.t.sol:NFTMarketTest
 [PASS] testApprovalAndTransferFrom() (gas: 38774)
-[PASS] testBuyNFTSuccess() (gas: 164500)
-[PASS] testBuyNFTTwice() (gas: 181066)
-[PASS] testBuyNFTWithInsufficientFunds() (gas: 138930)
-[PASS] testBuyOwnNFT() (gas: 134347)
-[PASS] testContractInteraction() (gas: 357383)
-[PASS] testFuzzyListingAndBuying() (gas: 1300999)
-[PASS] testLargeTransfer() (gas: 37410)
-[PASS] testListNFTFail() (gas: 20296)
-[PASS] testListNFTSuccess() (gas: 107783)
-[PASS] testMultipleListings() (gas: 157828)
-[PASS] testNoTokenBalanceInMarket() (gas: 2645680)
-[PASS] testTokenApproval() (gas: 38944)
-[PASS] testTokenURI() (gas: 74516)
-[PASS] testTransferToNonERC1363Receiver() (gas: 675412)
+[PASS] testBuyNFTSuccess() (gas: 164518)
+[PASS] testBuyNFTTwice() (gas: 181020)
+[PASS] testBuyNFTWithInsufficientFunds() (gas: 138940)
+[PASS] testBuyOwnNFT() (gas: 134369)
+[PASS] testFuzzyListingAndBuying() (gas: 921814)
+[PASS] testLargeTransfer() (gas: 32126)
+[PASS] testListNFTFail() (gas: 20229)
+[PASS] testListNFTSuccess() (gas: 107805)
+[PASS] testMultipleListings() (gas: 157850)
+[PASS] testNoTokenBalanceInMarket() (gas: 2510990)
+[PASS] testTransferToNonERC1363Receiver() (gas: 675434)
 [PASS] testTransferToNonERC721Receiver() (gas: 679321)
-[PASS] testUnauthorizedListing() (gas: 16646)
-[PASS] testZeroAddressTransfer() (gas: 11324)
-Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 3.46ms (5.30ms CPU time)
+[PASS] testTransferToOtherContract() (gas: 296639)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 3.39ms (4.64ms CPU time)
 
-Ran 1 test suite in 14.14ms (3.46ms CPU time): 18 tests passed, 0 failed, 0 skipped (18 total tests)
+Ran 1 test suite in 12.77ms (3.39ms CPU time): 14 tests passed, 0 failed, 0 skipped (14 total tests)
