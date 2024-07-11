@@ -193,7 +193,7 @@ contract NFTMarket is IERC721Receiver {
     }
 }
 
-    contract MockContract {
+    contract ListingAgent {
         NFTMarket public market;
         BaseERC20 public token;
         NFT public nft;
