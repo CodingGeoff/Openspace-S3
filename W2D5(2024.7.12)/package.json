@@ -1,0 +1,11 @@
+{
+  "name": "tsc_install",
+  "version": "1.0.0",
+  "description": "no",
+  "main": "index.js",
+  "scripts": {
+    "test": "omg"
+  },
+  "author": "",
+  "license": "ISC"
+}
