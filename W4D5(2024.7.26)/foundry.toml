@@ -1,0 +1,16 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+ast = true
+ffi = true
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+build_info = true
+extra_output = ["storageLayout"]
+
+[rpc_endpoints]
+sepolia = "https://ethereum-sepolia.publicnode.com"
+
+[etherscan]
+sepolia = { key = "2C6FGJVJ2HDF1NHARD87ZFGU7Z22EZ1K5U" }
