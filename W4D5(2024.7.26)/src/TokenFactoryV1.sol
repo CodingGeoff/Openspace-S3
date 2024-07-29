@@ -10,7 +10,7 @@ import "forge-std/console.sol";
 // import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {erc20Token} from "./ERC20_Inscription.sol";
 
-contract TokenFactoryV1 is UUPSUpgradeable{
+contract TokenFactoryV1 is UUPSUpgradeable, OwnableUpgradeable{
     event deployinscription(address tokenAddr, string symbol, uint256 totalSupply, uint256 perMint);
 
     // event deployinscription(address tokenAddr, uint256, totalSupply, perMint);
@@ -37,9 +37,16 @@ contract TokenFactoryV1 is UUPSUpgradeable{
     // }
 
 
+    function initialize(address initialOwner) initializer public {
+        __Ownable_init(initialOwner);
+    }
+
+
 
 
     function deployInscription(string memory symbol_, uint totalSupply_, uint perMint_) public returns (address){
+        // todo:在工厂未产生之前 确定owner
+        //todo: 代理部署方法 工厂部署方法
         // require(msg.sender == owner(), "You are not the owner");
         // __ERC20_init("GeoToken", symbol_);
         // __Ownable_init(msg.sender);
@@ -60,5 +67,6 @@ contract TokenFactoryV1 is UUPSUpgradeable{
     function _authorizeUpgrade(address newImplementation)
         internal
         override
+        onlyOwner
     {}
 }

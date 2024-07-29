@@ -18,6 +18,7 @@ contract TokenFactoryTest is Test {
     TokenFactoryV1 factory;
     TokenFactoryV2 factoryV2;
     ERC1967Proxy proxy;
+    address factory_owner;
     address owner;
     address newOwner;
 
@@ -32,8 +33,18 @@ contract TokenFactoryTest is Test {
         TokenFactoryV1 implementation = new TokenFactoryV1();
         // Define the owner address
         owner = vm.addr(1);
+        factory_owner = makeAddr("factory_owner");
+        vm.label(factory_owner, "factory_owner");
         // Deploy the proxy and initialize the contract through the proxy
         proxy = new ERC1967Proxy(address(implementation), "");
+        vm.prank(factory_owner);
+        (bool s2, ) = address(proxy).call(
+            abi.encodeWithSignature(
+                "initialize(address)",
+                factory_owner
+            )
+        );
+
         (bool s, bytes memory data) = address(proxy).call(
             abi.encodeWithSignature(
                 "deployInscription(string,uint256,uint256)",
@@ -71,11 +82,13 @@ contract TokenFactoryTest is Test {
 
         assertEq(deployedToken.balanceOf(address(3)), 2000); ///
 
+        // vm.prank(factory_owner);
+
         Upgrades.upgradeProxy(
             address(proxy),
             "TokenFactoryV2.sol:TokenFactoryV2",
             "",
-            owner
+            factory_owner
         );
         ///
         (bool s1, ) = address(proxy).call(
@@ -83,10 +96,11 @@ contract TokenFactoryTest is Test {
         );
         require(s1);
 
-        vm.deal(owner, 200000000000000000000000000000000000000 ether);
-        vm.deal(address(2), 200000000000000000000000000000000000000 ether);
+        vm.deal(owner, 2 ether);
+        vm.deal(address(2), 2 ether);
 
-        vm.startPrank(address(2));
+
+        vm.startPrank(address(999));
 
         (bool s, bytes memory data) = address(proxy).call(
             abi.encodeWithSignature(
@@ -97,21 +111,23 @@ contract TokenFactoryTest is Test {
                 555
             )
         );
+        vm.stopPrank();
+
 
         tokenAddr = abi.decode(data, (address));
         deployedTokenV2 = erc20Token(tokenAddr);
 
         assertEq(deployedTokenV2.balanceOf(address(37777777777)), 0);
-        address(proxy).call{value: 555}(
+
+        vm.prank(address(2));
+        address(proxy).call{value: 555*15000}(
             abi.encodeWithSignature("mintInscription(address)", tokenAddr)
         );
-
-        // uint256 balance = IERC20(tokenAddr).balanceOf(address(2));
 
         assertEq(deployedToken.balanceOf(address(3)), 2000);
 
         assertEq(deployedTokenV2.balanceOf(address(2)), 15000);
-        vm.stopPrank();
+
 
     }
 }
