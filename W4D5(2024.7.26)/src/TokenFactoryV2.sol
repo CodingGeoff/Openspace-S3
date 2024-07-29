@@ -37,9 +37,6 @@ contract TokenFactoryV2 is UUPSUpgradeable, OwnableUpgradeable{
     }
 
     function mintInscription(address tokenAddr) public payable {
-        // _mint(to, 20);
-        // price = 20;
-        // console.log("Sorry, there is no free lunch!");
         require(msg.value==price*perMint, "Not enough ETH balance");
         erc20Token(tokenAddr).mint(msg.sender);
         payable(tokenOwner[tokenAddr]).call{value: msg.value}("");
