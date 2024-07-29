@@ -13,6 +13,11 @@
 2. 有运行测试的日志或截图
 ```
 
+- [工厂v1 合约代码](https://github.com/CodingGeoff/Openspace-S3/blob/main/W4D5(2024.7.26)/src/TokenFactoryV1.sol)
+- [工厂v2 合约代码](https://github.com/CodingGeoff/Openspace-S3/blob/main/W4D5(2024.7.26)/src/TokenFactoryV2.sol)
+- [Foundry 测试用例](https://github.com/CodingGeoff/Openspace-S3/blob/main/W4D5(2024.7.26)/test/TokenFactory.t.sol)
+- [Foundry 测试日志](https://github.com/CodingGeoff/Openspace-S3/blob/main/W4D5(2024.7.26)/Foundry%20Test.txt)
+
 - Token 合约：[https://sepolia.etherscan.io/address/0x046A633b40EeBB4012F9C92B9F5E1F85e376021b](https://sepolia.etherscan.io/address/0x046A633b40EeBB4012F9C92B9F5E1F85e376021b)
 - TokenFactory v1 合约：
 [https://sepolia.etherscan.io/address/0xd191691e9b2f8b0977f21de5be110c08d0e80e4a](https://sepolia.etherscan.io/address/0xd191691e9b2f8b0977f21de5be110c08d0e80e4a)
