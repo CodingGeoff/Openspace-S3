@@ -147,8 +147,6 @@ contract NFTMarket_share {
         stakers_v2[msg.sender].stake = stake;
         stakers_v2[msg.sender].ini_I_Accumulate = I_Accumulate;
     }
-    receive() external payable {}
-    fallback() external payable {}
 
     function unstakeETH_v1 (uint256 amount) public payable {
         // This version do not add unclaim amount to stake amount automatically, user has to cliam
