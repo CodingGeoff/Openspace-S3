@@ -42,24 +42,9 @@ contract NFTMarket_share {
         nft_id = 1;
         nft = _nft;
     }
-    
-    // function getTotalFee(){
-    //     return TotalFee;
-    // }
-
-    // function getTotalStake(){
-    //     return TotalStake;
-    // }
-
-    // function getI(){
-    //     return I_Accumulate;
-    // }
     function getPrice(uint256 _tokenId) public view returns (uint256 price) {
         return nft_list[_tokenId].price;
     }
-    
-
-
 
     function listNFT(uint256 _tokenId, uint256 _price) public {
         require(msg.sender == nft.ownerOf(_tokenId), "You are not the owner of this NFT");
@@ -93,12 +78,9 @@ contract NFTMarket_share {
         (bool s,) = payable(nft.ownerOf(id)).call{value:earn}("");
         require(s);
           // charge 0.3% price of the NFT as fee, and transfer to the market contract
-        
         // transfer NFT from seller to buyer
 
         nft.transferFrom(nft.ownerOf(id), buyer, id);
-        
-
 
         // nft.safeTransferFrom(nft_list[id].owner, buyer, id);
         // calculate share and distribute to the each staker
@@ -107,13 +89,8 @@ contract NFTMarket_share {
             // This variable shouldn't exist unless anybody staked.
             TotalFee += fee;
             I_Accumulate += TotalFee *10**18/ TotalStake;
-
-            // console.log("I_Accumulate:", I_Accumulate);
-
-
             // I_Accumulate /= 10**18;
             console.log("I_Accumulate:", I_Accumulate);
-  
         }
 
         emit SomeoneBuyNFT(id, price, block.timestamp, fee);
@@ -187,6 +164,7 @@ contract NFTMarket_share {
         unclaim += stake*(I_Accumulate - ini_I_Accumulate)/(10**18);
         console.log("stake*(I_Accumulate - ini_I_Accumulate)", stake*(I_Accumulate - ini_I_Accumulate));
         
+        payable(msg.sender).transfer(amount);
         // 第二步，更新市场状态，并把这个作为用户本次质押的市场初态 I0，unstake/claim的话把这部分改成减号就可以
         TotalStake -= amount;
         stake -= amount;
@@ -204,8 +182,9 @@ contract NFTMarket_share {
 
     function claim() public {
         uint256 unclaim = stakers_v1[msg.sender].unclaim;
+        stakers_v1[msg.sender].unclaim = 0;
         payable(msg.sender).transfer(unclaim);
         // unstakeETH_v1(unclaim);
-        stakers_v1[msg.sender].unclaim = 0;
+
     }
 }
