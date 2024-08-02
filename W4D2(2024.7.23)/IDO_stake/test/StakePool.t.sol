@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity 0.8.20;
 
 import "forge-std/Test.sol";
 import "../src/StakePool.sol";
 import "../src/SigUtils.sol";
 
+
 contract StakingContractTest is Test {
-    RNTToken rntToken;
-    esRNTToken esRntToken;
-    StakingContract stakingContract;
-    address user;
-    uint256 privateKey;
+
+    RNTToken public rntToken;
+    esRNTToken public esRntToken;
+    StakingContract public stakingContract;
+    address public user;
+    uint256 public  privateKey;
     uint256 public constant UserInitialRntToken = 100*10**18;
-    address owneruser;
-    uint256 privateKeyowner;
+    address public owneruser;
+    uint256 public privateKeyowner;
 
     SigUtils sigUtils;
 
@@ -140,7 +142,7 @@ contract StakingContractTest is Test {
         vm.stopPrank();
     }
 
-    function test_Permit_TransferFrom() public {
+    function testPermitTransferFrom() public {
         SigUtils.Permit memory permit = SigUtils.Permit({
             owner: user,
             spender: address(stakingContract),
@@ -167,6 +169,7 @@ contract StakingContractTest is Test {
         vm.prank(address(stakingContract));
         rntToken.transferFrom(user, address(stakingContract), permit.value);
     }
+
 
 
     function testUnstakeMoreThanStaked() public {

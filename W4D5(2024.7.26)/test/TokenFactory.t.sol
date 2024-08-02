@@ -44,6 +44,7 @@ contract TokenFactoryTest is Test {
                 factory_owner
             )
         );
+        require(s2);
 
         (bool s, bytes memory data) = address(proxy).call(
             abi.encodeWithSignature(

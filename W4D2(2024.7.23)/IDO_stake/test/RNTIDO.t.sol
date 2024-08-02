@@ -168,7 +168,10 @@ contract RNTIDOTest is Test {
     // todo: test claim tokens
     // todo: test refund
     // // the same issue
+
+
     function testWithdrawFundsSuccess() public {
+
         vm.prank(address(rntido.owner()));
         rntido.admin_contribute{value: 0.5 ether}();
         vm.prank(contributor1);
