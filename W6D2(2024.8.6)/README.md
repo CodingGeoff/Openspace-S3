@@ -29,6 +29,6 @@
 ```
 
 - [Safe Wallet 官网](https://app.safe.global/new-safe/create?chain=sep)
-- [Safe 钱包地址](0x91F070bfDBcED03D6128036E63b2eB1238639161)
+- [Safe 钱包地址](https://sepolia.etherscan.io/address/0x91F070bfDBcED03D6128036E63b2eB1238639161)
 
 
