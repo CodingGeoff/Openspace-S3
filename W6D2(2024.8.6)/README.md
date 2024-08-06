@@ -28,6 +28,6 @@
 从多签中发起， 对 Bank 的 withdraw 的调用
 ```
 
-- [Safe Wallet 官网](https://app.safe.global/new-safe/create?chain=sep)
-- [**Safe 钱包地址**](https://sepolia.etherscan.io/address/0x91F070bfDBcED03D6128036E63b2eB1238639161)
+- [**Safe Wallet**](https://app.safe.global/home?safe=sep:0x91F070bfDBcED03D6128036E63b2eB1238639161)
+- [View on Sepolia](https://sepolia.etherscan.io/address/0x91F070bfDBcED03D6128036E63b2eB1238639161)
 - [ERC20 Token 存款和转账](https://sepolia.etherscan.io/tx/0xa281bd861a8a6c3420a95abde497152d907fbdbfc7cb2676f089c781c508a471)
