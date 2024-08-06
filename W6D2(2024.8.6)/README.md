@@ -11,7 +11,7 @@
 达到多签门槛、任何人都可以执行交易
 ```
 
-- [多签合约代码](https://github.com/CodingGeoff/Openspace-S3/blob/main/W6D2(2024.8.6)/src/MultisigWallet.sol)
+- [**多签合约代码**](https://github.com/CodingGeoff/Openspace-S3/blob/main/W6D2(2024.8.6)/src/MultisigWallet.sol)
 - [多签合约测试用例](https://github.com/CodingGeoff/Openspace-S3/blob/main/W6D2(2024.8.6)/test/MultisigWallet.t.sol)
 
 
@@ -29,6 +29,5 @@
 ```
 
 - [Safe Wallet 官网](https://app.safe.global/new-safe/create?chain=sep)
-- [Safe 钱包地址](https://sepolia.etherscan.io/address/0x91F070bfDBcED03D6128036E63b2eB1238639161)
-
-
+- [**Safe 钱包地址**](https://sepolia.etherscan.io/address/0x91F070bfDBcED03D6128036E63b2eB1238639161)
+- [ERC20 Token 存款和转账](https://sepolia.etherscan.io/tx/0xa281bd861a8a6c3420a95abde497152d907fbdbfc7cb2676f089c781c508a471)
