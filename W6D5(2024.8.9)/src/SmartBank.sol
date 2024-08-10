@@ -124,5 +124,3 @@ contract SmartBank{
         return address(0);
     }
 }
-
-// 0x85cd75463de3b43517954295194d38fcba04059ad510c0f3a017e28d1e9d3dea
