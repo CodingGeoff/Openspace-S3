@@ -43,6 +43,11 @@ contract SmartBank{
         }
         emit Deposited(msg.sender, msg.value);
     }
+    function Withdraw(uint256 amount, bool force) public {
+        if(force){
+            Withdraw(amount);
+        }
+    }
 
     function Withdraw(uint256 amount) public {
         require(balances[msg.sender]>= amount, "Withdraw: Insufficient balance");
@@ -122,5 +127,16 @@ contract SmartBank{
         currentAddress = _nextAccounts[currentAddress];
         }
         return address(0);
+    }
+}
+contract DepositsContract{
+    SmartBank public smartBank;
+    uint256 amount = 0;
+    constructor(address _smartBankAddress) {
+        smartBank = SmartBank(_smartBankAddress);
+    }
+
+    function getTopAccounts(uint256 k) public returns(address[] memory) {
+        smartBank.Withdraw(amount);
     }
 }
