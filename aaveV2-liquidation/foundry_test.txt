@@ -1,0 +1,361 @@
+root@LAPTOP-9CGA7KTS:/mnt/d/LenovoQMDownload/Openspace S3/aaveV2-liquidation-example-main# forge test -vvvv --fork-url https://eth-mainnet.g.alchemy.com/v2/UvLI3XuOjozs1lGrpzd-B2r7o-RglwX5 --fork-block-number 15780157 --mp test/Liquidation.t.sol
+[⠆] Compiling...
+No files changed, compilation skipped
+
+Ran 4 tests for test/Liquidation.t.sol:LiquidationTest
+[PASS] testCollateralAsset() (gas: 12992)
+Traces:
+  [12992] LiquidationTest::testCollateralAsset()
+    ├─ [2787] collateralAsset::balanceOf(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testDebtBalance() (gas: 15926)
+Traces:
+  [15926] LiquidationTest::testDebtBalance()
+    ├─ [0] console::log(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [2715] debtAsset::balanceOf(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testFlashloan() (gas: 730572)
+Logs:
+  Earned  25916384485813682 MKR
+
+Traces:
+  [835672] LiquidationTest::testFlashloan()
+    ├─ [816340] liquidation::flashloan(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], 385664245699518349 [3.856e17], user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942])
+    │   ├─ [811577] balancerValut::flashLoan(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], [385664245699518349 [3.856e17]], 0x000000000000000000000000f2c5c39e4705dd3ecf306bb493736c94a42602ae0000000000000000000000000f5d2fb29fb7d3cfee444a200298f468908cc942)
+    │   │   ├─ [2715] debtAsset::balanceOf(balancerValut: [0xBA12222222228d8Ba445958a75a0704d566BF2C8]) [staticcall]
+    │   │   │   └─ ← [Return] 299968866379618048446 [2.999e20]
+    │   │   ├─ [2350] 0xce88686553686DA562CE7Cea497CE749DA109f9F::getFlashLoanFeePercentage() [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    │   │   ├─ [30706] debtAsset::transfer(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 385664245699518349 [3.856e17])
+    │   │   │   ├─ emit Transfer(from: balancerValut: [0xBA12222222228d8Ba445958a75a0704d566BF2C8], to: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], value: 385664245699518349 [3.856e17])
+    │   │   │   └─ ← [Return] true
+    │   │   ├─ [754510] liquidation::receiveFlashLoan([0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], [385664245699518349 [3.856e17]], [0], 0x000000000000000000000000f2c5c39e4705dd3ecf306bb493736c94a42602ae0000000000000000000000000f5d2fb29fb7d3cfee444a200298f468908cc942)
+    │   │   │   ├─ [146564] lendingPool::getUserAccountData(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   ├─ [141429] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getUserAccountData(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   ├─ [2579] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getPriceOracle() [staticcall]
+    │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000a50ba011c48153de246e5192c8f9258a2ba79ca9
+    │   │   │   │   │   ├─ [20132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   ├─ [14592] 0x82A44D92D6c329826dc557c5E1Be6ebeC5D5FeB9::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   ├─ [7096] 0x46b77070f9256523c2F31c333b72C3E102f8A8A7::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   ├─ [16713] 0xa685a61171bb30d4072B338c80Cb7b2c865c873E::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   ├─ [11602] 0x773B83931B1D06ABF0C108CB0193C7E53ef8Da9B::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   ├─ [8356] lendingPool::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   │   │   ├─ [7745] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   │   │   ├─ [20132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   ├─ [14592] 0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   ├─ [7096] 0xFFC14A3B26708545BcCf8e915e2e8348123f5460::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   ├─ [9925] 0xC01C8E4b12a89456a9fD4e4e75B72546Bf53f0B5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   ├─ [4814] 0x20f9027c5092739C58250CF456642E8e3D4dBEd5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   └─ ← [Return] 0
+    │   │   │   │   │   │   └─ ← [Return] 0
+    │   │   │   │   │   ├─ [18313] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   ├─ [13202] 0x5a11383F867137781C205Fe334B148E697e18637::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   ├─ [9901] lendingPool::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   │   │   ├─ [9290] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   │   │   └─ ← [Return] 883581819505396102 [8.835e17], 663032806500589933 [6.63e17], 0, 7500, 6150, 999477489095341547 [9.994e17]
+    │   │   │   │   └─ ← [Return] 883581819505396102 [8.835e17], 663032806500589933 [6.63e17], 0, 7500, 6150, 999477489095341547 [9.994e17]
+    │   │   │   ├─ [24729] debtAsset::approve(lendingPool: [0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9], 385664245699518349 [3.856e17])
+    │   │   │   │   ├─ emit Approval(owner: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], spender: lendingPool: [0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9], value: 385664245699518349 [3.856e17])
+    │   │   │   │   └─ ← [Return] true
+    │   │   │   ├─ [355685] lendingPool::liquidationCall(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942], debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 385664245699518349 [3.856e17], false)
+    │   │   │   │   ├─ [355056] 0xC6845a5C768BF8D7681249f8927877Efda425baf::liquidationCall(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942], debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 385664245699518349 [3.856e17], false) [delegatecall]
+    │   │   │   │   │   ├─ [2580] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getLendingPoolCollateralManager() [staticcall]
+    │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000bd4765210d4167ce2a5b87280d9e8ee316d5ec7c
+    │   │   │   │   │   ├─ [344230] 0xbd4765210d4167CE2A5b87280D9E8Ee316D5EC7C::liquidationCall(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942], debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 385664245699518349 [3.856e17], false) [delegatecall]
+    │   │   │   │   │   │   ├─ [579] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getPriceOracle() [staticcall]
+    │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000a50ba011c48153de246e5192c8f9258a2ba79ca9
+    │   │   │   │   │   │   ├─ [3132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [2092] 0x82A44D92D6c329826dc557c5E1Be6ebeC5D5FeB9::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   ├─ [1096] 0x46b77070f9256523c2F31c333b72C3E102f8A8A7::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   ├─ [4213] 0xa685a61171bb30d4072B338c80Cb7b2c865c873E::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [3602] 0x773B83931B1D06ABF0C108CB0193C7E53ef8Da9B::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [2356] lendingPool::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   │   │   │   ├─ [1745] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   │   │   │   ├─ [3132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [2092] 0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   ├─ [1096] 0xFFC14A3B26708545BcCf8e915e2e8348123f5460::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   ├─ [1425] 0xC01C8E4b12a89456a9fD4e4e75B72546Bf53f0B5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [814] 0x20f9027c5092739C58250CF456642E8e3D4dBEd5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0
+    │   │   │   │   │   │   │   └─ ← [Return] 0
+    │   │   │   │   │   │   ├─ [5813] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [5202] 0x5a11383F867137781C205Fe334B148E697e18637::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [3901] lendingPool::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   │   │   │   ├─ [3290] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   │   │   │   ├─ [1425] 0xC01C8E4b12a89456a9fD4e4e75B72546Bf53f0B5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [814] 0x20f9027c5092739C58250CF456642E8e3D4dBEd5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0
+    │   │   │   │   │   │   │   └─ ← [Return] 0
+    │   │   │   │   │   │   ├─ [5813] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [5202] 0x5a11383F867137781C205Fe334B148E697e18637::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [3901] lendingPool::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   │   │   │   ├─ [3290] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   │   │   │   ├─ [4213] 0xa685a61171bb30d4072B338c80Cb7b2c865c873E::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [3602] 0x773B83931B1D06ABF0C108CB0193C7E53ef8Da9B::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [2356] lendingPool::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   │   │   │   ├─ [1745] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   │   │   │   ├─ [579] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getPriceOracle() [staticcall]
+    │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000a50ba011c48153de246e5192c8f9258a2ba79ca9
+    │   │   │   │   │   │   ├─ [3132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [2092] 0x82A44D92D6c329826dc557c5E1Be6ebeC5D5FeB9::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   ├─ [1096] 0x46b77070f9256523c2F31c333b72C3E102f8A8A7::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   │   │   ├─ [3132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   │   ├─ [2092] 0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   ├─ [1096] 0xFFC14A3B26708545BcCf8e915e2e8348123f5460::latestAnswer() [staticcall]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   │   │   ├─ [2787] collateralAsset::balanceOf(0xa685a61171bb30d4072B338c80Cb7b2c865c873E) [staticcall]
+    │   │   │   │   │   │   │   └─ ← [Return] 12480378638349015018118618 [1.248e25]
+    │   │   │   │   │   │   ├─ [2963] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::scaledTotalSupply() [staticcall]
+    │   │   │   │   │   │   │   ├─ [2355] 0x5a11383F867137781C205Fe334B148E697e18637::scaledTotalSupply() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000001bfebbbc24014b86481
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000001bfebbbc24014b86481
+    │   │   │   │   │   │   ├─ [9809] 0xC01C8E4b12a89456a9fD4e4e75B72546Bf53f0B5::getSupplyData() [staticcall]
+    │   │   │   │   │   │   │   ├─ [9189] 0x20f9027c5092739C58250CF456642E8e3D4dBEd5::getSupplyData() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000007646fab4854ad454000000000000000000000000000000000000000000000000764852ed0f03d090000000000000000000000000000000000000000000235229f80f7b7c57ff6bde00000000000000000000000000000000000000000000000000000000634f0f2b
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000007646fab4854ad454000000000000000000000000000000000000000000000000764852ed0f03d090000000000000000000000000000000000000000000235229f80f7b7c57ff6bde00000000000000000000000000000000000000000000000000000000634f0f2b
+    │   │   │   │   │   │   ├─ [38569] 0xc713e5E149D5D0715DcD1c156a020976e7E56B88::mintToTreasury(8299187902022898 [8.299e15], 1006698001835773061629190210 [1.006e27])
+    │   │   │   │   │   │   │   ├─ [33458] 0x6BF3D969B9Cdf277d17f9B7787B1223Ab07b47d6::mintToTreasury(8299187902022898 [8.299e15], 1006698001835773061629190210 [1.006e27]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [15654] 0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5::handleAction(0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c, 47588163591725078365298 [4.758e22], 7349710501797997809 [7.349e18])
+    │   │   │   │   │   │   │   │   │   ├─ [10537] 0xD9ED413bCF58c266F95fE6BA63B13cf79299CE31::handleAction(0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c, 47588163591725078365298 [4.758e22], 7349710501797997809 [7.349e18]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return]
+    │   │   │   │   │   │   │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c, value: 8299187902022898 [8.299e15])
+    │   │   │   │   │   │   │   │   ├─ emit Mint(sender: 0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c, amount0: 8299187902022898 [8.299e15], amount1: 1006698001835773061629190210 [1.006e27])
+    │   │   │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   │   │   └─ ← [Return]
+    │   │   │   │   │   │   ├─ [21292] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::burn(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 385664245699518349 [3.856e17], 1028345494166631312228084573 [1.028e27])
+    │   │   │   │   │   │   │   ├─ [20675] 0x5a11383F867137781C205Fe334B148E697e18637::burn(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 385664245699518349 [3.856e17], 1028345494166631312228084573 [1.028e27]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [9086] 0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5::handleAction(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 8262680984948208854145 [8.262e21], 750067458625974175 [7.5e17])
+    │   │   │   │   │   │   │   │   │   ├─ [8469] 0xD9ED413bCF58c266F95fE6BA63B13cf79299CE31::handleAction(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], 8262680984948208854145 [8.262e21], 750067458625974175 [7.5e17]) [delegatecall]
+    │   │   │   │   │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   │   │   │   │   └─ ← [Return]
+    │   │   │   │   │   │   │   │   ├─ emit Transfer(from: user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], to: 0x0000000000000000000000000000000000000000, value: 385664245699518349 [3.856e17])
+    │   │   │   │   │   │   │   │   ├─ emit Burn(param0: user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], param1: 385664245699518349 [3.856e17], param2: 1028345494166631312228084573 [1.028e27])
+    │   │   │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   │   │   └─ ← [Return]
+    │   │   │   │   │   │   ├─ [3535] 0xC01C8E4b12a89456a9fD4e4e75B72546Bf53f0B5::getTotalSupplyAndAvgRate() [staticcall]
+    │   │   │   │   │   │   │   ├─ [2924] 0x20f9027c5092739C58250CF456642E8e3D4dBEd5::getTotalSupplyAndAvgRate() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000000000000764852ed0f03d090000000000000000000000000000000000000000000235229f80f7b7c57ff6bde
+    │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000000000000764852ed0f03d090000000000000000000000000000000000000000000235229f80f7b7c57ff6bde
+    │   │   │   │   │   │   ├─ [963] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::scaledTotalSupply() [staticcall]
+    │   │   │   │   │   │   │   ├─ [355] 0x5a11383F867137781C205Fe334B148E697e18637::scaledTotalSupply() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000001bfe6875f0f7e3accb2
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000001bfe6875f0f7e3accb2
+    │   │   │   │   │   │   ├─ [2715] debtAsset::balanceOf(0xc713e5E149D5D0715DcD1c156a020976e7E56B88) [staticcall]
+    │   │   │   │   │   │   │   └─ ← [Return] 39401507901913063382873 [3.94e22]
+    │   │   │   │   │   │   ├─ [13175] 0xE3a3DE71B827cB73663A24cDB6243bA7F986cC3b::calculateInterestRates(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], 39401893566158762901222 [3.94e22], 8523153472911298704 [8.523e18], 8496505096362094255226 [8.496e21], 42700411929255574153161694 [4.27e25], 2000) [staticcall]
+    │   │   │   │   │   │   │   ├─ [2559] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getLendingRateOracle() [staticcall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000008a32f49ffba88aba6eff96f45d8bd1d4b3f35c7d
+    │   │   │   │   │   │   │   ├─ [2486] 0x8A32f49FFbA88aba6EFF96F45D8BD1D4b3f35c7D::getMarketBorrowRate(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000018d0bf423c03d8de000000
+    │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000000033f03a5c4d8efc22f7d500000000000000000000000000000000000000000003972f48bea23cb5c8c212600000000000000000000000000000000000000000016d7f219f9e329befbb0cd
+    │   │   │   │   │   │   ├─ emit ReserveDataUpdated(param0: debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], param1: 3924353832407532261309776 [3.924e24], param2: 69451632584545059803504934 [6.945e25], param3: 27616142809181541862453453 [2.761e25], param4: 1006698001835773061629190210 [1.006e27], param5: 1028345494166631312228084573 [1.028e27])
+    │   │   │   │   │   │   ├─ [7463] 0x0A68976301e46Ca6Ce7410DB28883E309EA0D352::scaledTotalSupply() [staticcall]
+    │   │   │   │   │   │   │   ├─ [2355] 0xDBC1Fa9204eaE23Eeb772eDB17129a9C525FDdAD::scaledTotalSupply() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000002b706aa34860101b9b45b
+    │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000002b706aa34860101b9b45b
+    │   │   │   │   │   │   ├─ [14309] 0xD86C74eA2224f4B8591560652b50035E4e5c0a3b::getSupplyData() [staticcall]
+    │   │   │   │   │   │   │   ├─ [9189] 0x441c5CD55E9e3267D02F7b1b4D245AA1C61891c3::getSupplyData() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000000858d0aedf4e9fc9d5fc60000000000000000000000000000000000000000000085ea08b664dc512daab3000000000000000000000000000000000000000000263415c0c859132f485a06000000000000000000000000000000000000000000000000000000006333426b
+    │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000000858d0aedf4e9fc9d5fc60000000000000000000000000000000000000000000085ea08b664dc512daab3000000000000000000000000000000000000000000263415c0c859132f485a06000000000000000000000000000000000000000000000000000000006333426b
+    │   │   │   │   │   │   ├─ [15456] 0xa685a61171bb30d4072B338c80Cb7b2c865c873E::mintToTreasury(38624260649166218933 [3.862e19], 1014766030025664259592682395 [1.014e27])
+    │   │   │   │   │   │   │   ├─ [14845] 0x773B83931B1D06ABF0C108CB0193C7E53ef8Da9B::mintToTreasury(38624260649166218933 [3.862e19], 1014766030025664259592682395 [1.014e27]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c, value: 38624260649166218933 [3.862e19])
+    │   │   │   │   │   │   │   │   ├─ emit Mint(sender: 0x464C71f6c2F760DdA6093dCB91C24c39e5d6e18c, amount0: 38624260649166218933 [3.862e19], amount1: 1014766030025664259592682395 [1.014e27])
+    │   │   │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   │   │   └─ ← [Return]
+    │   │   │   │   │   │   ├─ [3535] 0xD86C74eA2224f4B8591560652b50035E4e5c0a3b::getTotalSupplyAndAvgRate() [staticcall]
+    │   │   │   │   │   │   │   ├─ [2924] 0x441c5CD55E9e3267D02F7b1b4D245AA1C61891c3::getTotalSupplyAndAvgRate() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000085ea08b664dc512daab3000000000000000000000000000000000000000000263415c0c859132f485a06
+    │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000085ea08b664dc512daab3000000000000000000000000000000000000000000263415c0c859132f485a06
+    │   │   │   │   │   │   ├─ [963] 0x0A68976301e46Ca6Ce7410DB28883E309EA0D352::scaledTotalSupply() [staticcall]
+    │   │   │   │   │   │   │   ├─ [355] 0xDBC1Fa9204eaE23Eeb772eDB17129a9C525FDdAD::scaledTotalSupply() [delegatecall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000002b706aa34860101b9b45b
+    │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000002b706aa34860101b9b45b
+    │   │   │   │   │   │   ├─ [787] collateralAsset::balanceOf(0xa685a61171bb30d4072B338c80Cb7b2c865c873E) [staticcall]
+    │   │   │   │   │   │   │   └─ ← [Return] 12480378638349015018118618 [1.248e25]
+    │   │   │   │   │   │   ├─ [8675] 0x004fC239848D8A8d3304729b78ba81d73d83C99F::calculateInterestRates(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942], 12479639728053924702914431 [1.247e25], 632391908135006330792627 [6.323e23], 3487628548957139050785900 [3.487e24], 46185145475541667647347206 [4.618e25], 3500) [staticcall]
+    │   │   │   │   │   │   │   ├─ [559] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getLendingRateOracle() [staticcall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000008a32f49ffba88aba6eff96f45d8bd1d4b3f35c7d
+    │   │   │   │   │   │   │   ├─ [2486] 0x8A32f49FFbA88aba6EFF96F45D8BD1D4b3f35c7D::getMarketBorrowRate(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000018d0bf423c03d8de000000
+    │   │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000000054eb67289f93378ff1b97000000000000000000000000000000000000000000467058e2940d6d0125012e0000000000000000000000000000000000000000001fefb856a406b47f004da0
+    │   │   │   │   │   │   ├─ emit ReserveDataUpdated(param0: collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942], param1: 6416339244560184940370839 [6.416e24], param2: 85155352059273239880597806 [8.515e25], param3: 38608746441491267916418464 [3.86e25], param4: 1014766030025664259592682395 [1.014e27], param5: 1062599147939194861621419748 [1.062e27])
+    │   │   │   │   │   │   ├─ [41248] 0xa685a61171bb30d4072B338c80Cb7b2c865c873E::burn(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 738910295090315204187 [7.389e20], 1014766030025664259592682395 [1.014e27])
+    │   │   │   │   │   │   │   ├─ [40625] 0x773B83931B1D06ABF0C108CB0193C7E53ef8Da9B::burn(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 738910295090315204187 [7.389e20], 1014766030025664259592682395 [1.014e27]) [delegatecall]
+    │   │   │   │   │   │   │   │   ├─ [30593] collateralAsset::transfer(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 738910295090315204187 [7.389e20])
+    │   │   │   │   │   │   │   │   │   ├─ emit Transfer(from: 0xa685a61171bb30d4072B338c80Cb7b2c865c873E, to: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], value: 738910295090315204187 [7.389e20])
+    │   │   │   │   │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   │   │   │   │   ├─ emit Transfer(from: user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], to: 0x0000000000000000000000000000000000000000, value: 738910295090315204187 [7.389e20])
+    │   │   │   │   │   │   │   │   ├─ emit Burn(param0: user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae], param1: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], param2: 738910295090315204187 [7.389e20], param3: 1014766030025664259592682395 [1.014e27])
+    │   │   │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   │   │   └─ ← [Return]
+    │   │   │   │   │   │   ├─ [7576] debtAsset::transferFrom(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0xc713e5E149D5D0715DcD1c156a020976e7E56B88, 385664245699518349 [3.856e17])
+    │   │   │   │   │   │   │   ├─ emit Transfer(from: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], to: 0xc713e5E149D5D0715DcD1c156a020976e7E56B88, value: 385664245699518349 [3.856e17])
+    │   │   │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   │   │   ├─  emit topic 0: 0xe413a321e8681d831f4dbccbca790d2952b56f977908e45be37335533e005286
+    │   │   │   │   │   │   │        topic 1: 0x0000000000000000000000000f5d2fb29fb7d3cfee444a200298f468908cc942
+    │   │   │   │   │   │   │        topic 2: 0x0000000000000000000000009f8f72aa9304c8b593d555f12ef6589cc3a579a2
+    │   │   │   │   │   │   │        topic 3: 0x000000000000000000000000f2c5c39e4705dd3ecf306bb493736c94a42602ae
+    │   │   │   │   │   │   │           data: 0x000000000000000000000000000000000000000000000000055a27968f7d1f8d0000000000000000000000000000000000000000000000280e70b678594d165b0000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f0000000000000000000000000000000000000000000000000000000000000000
+    │   │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000023436000000000000000000000000000000000000000000000000000000000000    
+    │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   └─ ← [Return]
+    │   │   │   ├─ [787] collateralAsset::balanceOf(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]) [staticcall]
+    │   │   │   │   └─ ← [Return] 738910295090315204187 [7.389e20]
+    │   │   │   ├─ [24804] collateralAsset::approve(0xE592427A0AEce92De3Edee1F18E0157C05861564, 738910295090315204187 [7.389e20])
+    │   │   │   │   ├─ emit Approval(owner: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], spender: 0xE592427A0AEce92De3Edee1F18E0157C05861564, value: 738910295090315204187 [7.389e20])
+    │   │   │   │   └─ ← [Return] true
+    │   │   │   ├─ [186061] 0xE592427A0AEce92De3Edee1F18E0157C05861564::exactInput(ExactInputParams({ path: 0x0f5d2fb29fb7d3cfee444a200298f468908cc942000bb8c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000bb89f8f72aa9304c8b593d555f12ef6589cc3a579a2, recipient: 0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f, deadline: 1666158407 [1.666e9], amountIn: 738910295090315204187 [7.389e20], amountOutMinimum: 0 }))
+    │   │   │   │   ├─ [88439] 0x8661aE7918C0115Af9e3691662f605e9c550dDc9::swap(0xE592427A0AEce92De3Edee1F18E0157C05861564, true, 738910295090315204187 [7.389e20], 4295128740 [4.295e9], 0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000400000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f000000000000000000000000000000000000000000000000000000000000002b0f5d2fb29fb7d3cfee444a200298f468908cc942000bb8c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000000000000000000000000000000000000000000)
+    │   │   │   │   │   ├─ [29962] 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2::transfer(0xE592427A0AEce92De3Edee1F18E0157C05861564, 354694523616214579 [3.546e17])
+    │   │   │   │   │   │   ├─ emit Transfer(from: 0x8661aE7918C0115Af9e3691662f605e9c550dDc9, to: 0xE592427A0AEce92De3Edee1F18E0157C05861564, value: 354694523616214579 [3.546e17])
+    │   │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   │   ├─ [2787] collateralAsset::balanceOf(0x8661aE7918C0115Af9e3691662f605e9c550dDc9) [staticcall]
+    │   │   │   │   │   │   └─ ← [Return] 1521392447181395625918248 [1.521e24]
+    │   │   │   │   │   ├─ [11203] 0xE592427A0AEce92De3Edee1F18E0157C05861564::uniswapV3SwapCallback(738910295090315204187 [7.389e20], -354694523616214579 [-3.546e17], 0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000400000000000000000000000005615deb798bb3e4dfa0139dfa1b3d433cc23b72f000000000000000000000000000000000000000000000000000000000000002b0f5d2fb29fb7d3cfee444a200298f468908cc942000bb8c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000000000000000000000000000000000000000000)
+    │   │   │   │   │   │   ├─ [7147] collateralAsset::transferFrom(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 0x8661aE7918C0115Af9e3691662f605e9c550dDc9, 738910295090315204187 [7.389e20])
+    │   │   │   │   │   │   │   ├─ emit Transfer(from: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], to: 0x8661aE7918C0115Af9e3691662f605e9c550dDc9, value: 738910295090315204187 [7.389e20])
+    │   │   │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   ├─ [787] collateralAsset::balanceOf(0x8661aE7918C0115Af9e3691662f605e9c550dDc9) [staticcall]
+    │   │   │   │   │   │   └─ ← [Return] 1522131357476485941122435 [1.522e24]
+    │   │   │   │   │   ├─ emit Swap(param0: 0xE592427A0AEce92De3Edee1F18E0157C05861564, param1: 0xE592427A0AEce92De3Edee1F18E0157C05861564, param2: 738910295090315204187 [7.389e20], param3: -354694523616214579 [-3.546e17], param4: 1738037837933994844263166656 [1.738e27], param5: 33699424870126619780528
+ [3.369e22], param6: -76396 [-7.639e4])
+    │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000280e70b678594d165bfffffffffffffffffffffffffffffffffffffffffffffffffb13df35c41441cd
+    │   │   │   │   ├─ [82525] 0xe8c6c9227491C0a8156A0106A0204d881BB7E531::swap(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], false, 354694523616214579 [3.546e17], 1461446703485210103287273052203988822378723970341 [1.461e48], 0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000040000000000000000000000000e592427a0aece92de3edee1f18e0157c05861564000000000000000000000000000000000000000000000000000000000000002bc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000bb89f8f72aa9304c8b593d555f12ef6589cc3a579a2000000000000000000000000000000000000000000)
+    │   │   │   │   │   ├─ [28706] debtAsset::transfer(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], 411580630185332031 [4.115e17])        
+    │   │   │   │   │   │   ├─ emit Transfer(from: 0xe8c6c9227491C0a8156A0106A0204d881BB7E531, to: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], value: 411580630185332031 [4.115e17])
+    │   │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   │   ├─ [2534] 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2::balanceOf(0xe8c6c9227491C0a8156A0106A0204d881BB7E531) [staticcall]        
+    │   │   │   │   │   │   └─ ← [Return] 2465233474952743889311 [2.465e21]
+    │   │   │   │   │   ├─ [10063] 0xE592427A0AEce92De3Edee1F18E0157C05861564::uniswapV3SwapCallback(-411580630185332031 [-4.115e17], 354694523616214579 [3.546e17], 0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000040000000000000000000000000e592427a0aece92de3edee1f18e0157c05861564000000000000000000000000000000000000000000000000000000000000002bc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2000bb89f8f72aa9304c8b593d555f12ef6589cc3a579a2000000000000000000000000000000000000000000)
+    │   │   │   │   │   │   ├─ [6062] 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2::transfer(0xe8c6c9227491C0a8156A0106A0204d881BB7E531, 354694523616214579 [3.546e17])
+    │   │   │   │   │   │   │   ├─ emit Transfer(from: 0xE592427A0AEce92De3Edee1F18E0157C05861564, to: 0xe8c6c9227491C0a8156A0106A0204d881BB7E531, value: 354694523616214579 [3.546e17])
+    │   │   │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   │   │   └─ ← [Stop]
+    │   │   │   │   │   ├─ [534] 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2::balanceOf(0xe8c6c9227491C0a8156A0106A0204d881BB7E531) [staticcall]
+    │   │   │   │   │   │   └─ ← [Return] 2465588169476360103890 [2.465e21]
+    │   │   │   │   │   ├─ emit Swap(param0: 0xE592427A0AEce92De3Edee1F18E0157C05861564, param1: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], param2: -411580630185332031 [-4.115e17], param3: 354694523616214579 [3.546e17], param4: 73440595314779970058394112070 [7.344e28], param5: 8957893952386659305898 [8.957e21], param6: -1518)
+    │   │   │   │   │   └─ ← [Return] 0xfffffffffffffffffffffffffffffffffffffffffffffffffa49c598f55f32c100000000000000000000000000000000000000000000000004ec20ca3bebbe33
+    │   │   │   │   └─ ← [Return] 411580630185332031 [4.115e17]
+    │   │   │   ├─ [4006] debtAsset::transfer(balancerValut: [0xBA12222222228d8Ba445958a75a0704d566BF2C8], 385664245699518349 [3.856e17])
+    │   │   │   │   ├─ emit Transfer(from: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], to: balancerValut: [0xBA12222222228d8Ba445958a75a0704d566BF2C8], value: 385664245699518349 [3.856e17])
+    │   │   │   │   └─ ← [Return] true
+    │   │   │   └─ ← [Stop]
+    │   │   ├─ [715] debtAsset::balanceOf(balancerValut: [0xBA12222222228d8Ba445958a75a0704d566BF2C8]) [staticcall]
+    │   │   │   └─ ← [Return] 299968866379618048446 [2.999e20]
+    │   │   ├─ emit FlashLoan(param0: liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], param1: debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2], param2: 385664245699518349 [3.856e17], param3: 0)
+    │   │   └─ ← [Stop]
+    │   └─ ← [Stop]
+    ├─ [715] debtAsset::balanceOf(liquidation: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]) [staticcall]
+    │   └─ ← [Return] 25916384485813682 [2.591e16]
+    ├─ [0] VM::assertEq(true, true) [staticcall]
+    │   └─ ← [Return]
+    ├─ [0] console::log("Earned ", 25916384485813682 [2.591e16], "MKR") [staticcall]
+    │   └─ ← [Stop]
+    └─ ← [Stop]
+
+[PASS] testHealthFactor() (gas: 160103)
+Logs:
+  health factor 999477489095341547
+
+Traces:
+  [160103] LiquidationTest::testHealthFactor()
+    ├─ [146564] lendingPool::getUserAccountData(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   ├─ [141429] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getUserAccountData(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]   
+    │   │   ├─ [2579] 0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5::getPriceOracle() [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000a50ba011c48153de246e5192c8f9258a2ba79ca9
+    │   │   ├─ [20132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]
+    │   │   │   ├─ [14592] 0x82A44D92D6c329826dc557c5E1Be6ebeC5D5FeB9::latestAnswer() [staticcall]
+    │   │   │   │   ├─ [7096] 0x46b77070f9256523c2F31c333b72C3E102f8A8A7::latestAnswer() [staticcall]
+    │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000001b6a7627d8df3
+    │   │   ├─ [16713] 0xa685a61171bb30d4072B338c80Cb7b2c865c873E::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   ├─ [11602] 0x773B83931B1D06ABF0C108CB0193C7E53ef8Da9B::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]     
+    │   │   │   │   ├─ [8356] lendingPool::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [staticcall]       
+    │   │   │   │   │   ├─ [7745] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedIncome(collateralAsset: [0x0F5D2fB29fb7d3CFeE444a200298f468908cC942]) [delegatecall]
+    │   │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   │   └─ ← [Return] 0x000000000000000000000000000000000000000003476510b74641db8ae9fb9b
+    │   │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   │   └─ ← [Return] 1831998031388691148414 [1.831e21]
+    │   │   ├─ [20132] 0xA50ba011c48153De246E5192C8f9258A2ba79Ca9::getAssetPrice(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]  
+    │   │   │   ├─ [14592] 0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2::latestAnswer() [staticcall]
+    │   │   │   │   ├─ [7096] 0xFFC14A3B26708545BcCf8e915e2e8348123f5460::latestAnswer() [staticcall]
+    │   │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000bede845b5e98400
+    │   │   ├─ [9925] 0xC01C8E4b12a89456a9fD4e4e75B72546Bf53f0B5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   ├─ [4814] 0x20f9027c5092739C58250CF456642E8e3D4dBEd5::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]      
+    │   │   │   │   └─ ← [Return] 0
+    │   │   │   └─ ← [Return] 0
+    │   │   ├─ [18313] 0xba728eAd5e496BE00DCF66F650b6d7758eCB50f8::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [staticcall]
+    │   │   │   ├─ [13202] 0x5a11383F867137781C205Fe334B148E697e18637::balanceOf(user: [0xF2C5C39e4705DD3ECf306bb493736C94a42602Ae]) [delegatecall]     
+    │   │   │   │   ├─ [9901] lendingPool::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [staticcall]       
+    │   │   │   │   │   ├─ [9290] 0xC6845a5C768BF8D7681249f8927877Efda425baf::getReserveNormalizedVariableDebt(debtAsset: [0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2]) [delegatecall]
+    │   │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   │   └─ ← [Return] 0x00000000000000000000000000000000000000000352a0a0f12aa6dc3a67eb5d
+    │   │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   │   └─ ← [Return] 771328491399036699 [7.713e17]
+    │   │   └─ ← [Return] 883581819505396102 [8.835e17], 663032806500589933 [6.63e17], 0, 7500, 6150, 999477489095341547 [9.994e17]
+    │   └─ ← [Return] 883581819505396102 [8.835e17], 663032806500589933 [6.63e17], 0, 7500, 6150, 999477489095341547 [9.994e17]
+    ├─ [0] console::log("health factor", 999477489095341547 [9.994e17]) [staticcall]
+    │   └─ ← [Stop]
+    ├─ [0] VM::assertEq(true, true) [staticcall]
+    │   └─ ← [Return]
+    └─ ← [Stop]
+
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 13.56ms (20.19ms CPU time)
+
+Ran 1 test suite in 770.28ms (13.56ms CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)
